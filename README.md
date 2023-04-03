@@ -1,3 +1,3 @@
 # SwiftDesignPatterns
 
-A description of this package.
+Examples of Design Patterns in Swift
