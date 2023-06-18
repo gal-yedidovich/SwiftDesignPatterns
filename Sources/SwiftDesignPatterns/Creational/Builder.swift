@@ -52,7 +52,7 @@ extension Person {
 }
 
 
-func example() {
+private func example() {
 	let Gal = Person.Builder(name: "Gal Yedidovich")
 		.set(birthDate: Date(timeIntervalSince1970: 10000))
 		.build()
