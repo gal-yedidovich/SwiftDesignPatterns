@@ -16,7 +16,11 @@ struct TupleComparator<Compared, Left: SortComparator, Right: SortComparator>: S
 	
 	func compare(_ lhs: Compared, _ rhs: Compared) -> ComparisonResult {
 		let result = first.compare(lhs, rhs)
-		return result != .orderedSame ? result : next.compare(lhs, rhs)
+		if result != .orderedSame {
+			return result
+		}
+		
+		return next.compare(lhs, rhs)
 	}
 }
 
@@ -54,16 +58,11 @@ private func example() {
 		var order: SortOrder = .forward
 		
 		func compare(_ lhs: Person, _ rhs: Person) -> ComparisonResult {
-			switch lhs.age - rhs.age {
-			case let value where value < 0: return .orderedAscending
-			case let value where value > 0: return .orderedDescending
-			default: return .orderedSame
-			}
+			return ComparisonResult.from(number: lhs.age - rhs.age)
 		}
 	}
 	
-	let chainedComparator = AgeComparator()
-		.then(NameComparator())
+	let chainedComparator = AgeComparator().then(NameComparator())
 	let sorted = people.sorted(using: chainedComparator)
 	print(sorted)
 	
@@ -76,3 +75,10 @@ private func example() {
 	print(sorted2)
 }
 
+extension ComparisonResult {
+	static func from(number value: Int) -> ComparisonResult {
+		if value < 0 { return .orderedAscending }
+		if value > 0 { return .orderedDescending }
+		return .orderedSame
+	}
+}
