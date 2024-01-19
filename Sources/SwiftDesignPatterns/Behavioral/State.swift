@@ -6,7 +6,7 @@
 //
 
 import Foundation
-class Context {
+fileprivate class Context {
 	fileprivate var state: State = StateOne()
 	
 	func one() {
@@ -18,12 +18,12 @@ class Context {
 	}
 }
 
-protocol State {
+fileprivate protocol State {
 	func one(context: Context)
 	func two(context: Context)
 }
 
-struct StateOne: State {
+fileprivate struct StateOne: State {
 	func one(context: Context) {
 		print("One One")
 	}
@@ -34,7 +34,7 @@ struct StateOne: State {
 	}
 }
 
-struct StateTwo: State {
+fileprivate struct StateTwo: State {
 	func one(context: Context) {
 		print("Two One")
 	}
